@@ -2,11 +2,12 @@
 interface Props {
     rating: 1 | 2 | 3 | 4 | 5;
     description: string;
+    aiAssisted?: boolean;
     class?: string;
 }
 
 // Props
-const { rating, description, class: className } = Astro.props;
+const { rating, description, aiAssisted = false, class: className } = Astro.props;
 
 // Validate rating to be between 1 and 5
 const validRating = Math.min(Math.max(rating, 1), 5);
@@ -18,6 +19,9 @@ const validRating = Math.min(Math.max(rating, 1), 5);
         <span class="dots">
             {Array.from({ length: 5 }).map((_, i) => <span class={`dot ${i < validRating ? 'active' : ''}`} />)}
         </span>
+    </div>
+    <div class="coding-method">
+        Coded: <span class:list={aiAssisted ? 'ai-assisted' : 'by-hand'}>{aiAssisted ? 'with AI assistance' : 'by hand'}</span>
     </div>
     <div class="description">{description}</div>
 </div>
@@ -55,6 +59,22 @@ const validRating = Math.min(Math.max(rating, 1), 5);
     .dot.active {
         background-color: #28a745;
         box-shadow: 0 0 6px 0px rgba(40, 167, 69, 0.7);
+    }
+
+    .coding-method {
+        color: white;
+        font-weight: bold;
+        margin-bottom: 0.2rem;
+    }
+
+    .coding-method .by-hand {
+        color: #3b82f6;
+        text-shadow: 0 0 6px currentColor;
+    }
+
+    .coding-method .ai-assisted {
+        color: #ef4444;
+        text-shadow: 0 0 6px currentColor;
     }
 
     .description {
